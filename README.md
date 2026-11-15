@@ -52,13 +52,16 @@ Créez la base :
 CREATE DATABASE gestioncontact;
 ```
 
-Puis ajustez `src/main/resources/application.properties` :
+Puis définissez les variables d'environnement (aucun mot de passe n'est écrit dans le dépôt) :
 
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/gestioncontact
-spring.datasource.username=postgres
-spring.datasource.password=votre_mot_de_passe
+```bash
+export DB_URL=jdbc:postgresql://localhost:5432/gestioncontact
+export DB_USERNAME=postgres
+export DB_PASSWORD=votre_mot_de_passe
+export JWT_SECRET=une_longue_cle_aleatoire_de_32_caracteres_minimum
 ```
+
+Sans `JWT_SECRET`, l'application refuse de démarrer.
 
 Les tables sont créées automatiquement (`ddl-auto=update`). Les photos sont enregistrées dans le
 dossier `./uploads/` (paramètre `file.upload-dir`).

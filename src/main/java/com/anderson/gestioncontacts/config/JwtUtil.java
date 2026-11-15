@@ -16,11 +16,17 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret:defaultSecretKeyThatShouldBeChangedInProduction}")
+    @Value("${jwt.secret}")
     private String secret;
 
     @Value("${jwt.expiration:86400000}") // 24 heures par défaut
     private long expirationTime;
+
+    @jakarta.annotation.PostConstruct
+    void verifierSecret() {
+        if (secret == null || secret.getBytes().length < 32)
+            throw new IllegalStateException("JWT_SECRET doit être défini (32 caractères minimum)");
+    }
 
     private Key getSigningKey() {
         // Utiliser Keys.hmacShaKeyFor pour une clé plus sécurisée
